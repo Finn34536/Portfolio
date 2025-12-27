@@ -13,6 +13,8 @@
     position: absolute;
     padding: 75px 75px 75px 75px; 
     margin: 20px;
+    animation-name: slide-in;
+    animation-duration: 1s;
 }
 
 .content-container h1{
@@ -73,7 +75,7 @@
     height: 100%;
     filter: blur(100px);
     position: absolute;
-    animation-duration: 10s;
+    animation-duration: 7.5s;
     animation-iteration-count: infinite;
     user-select: none;
     pointer-events: none;
