@@ -45,7 +45,7 @@ main{
   font-style: italic;
   font-weight: 700;
   cursor: pointer;
-  transition: box-shadow 0.3s, transform 0.3s;
+  transition: box-shadow 0.3s, transform 0.5s;
 }
 
 .button-style:hover{
