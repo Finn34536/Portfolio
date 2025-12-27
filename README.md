@@ -1,2 +1,0 @@
-# Portfolio
-Finn Schmidts Portfolio
