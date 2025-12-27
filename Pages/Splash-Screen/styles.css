@@ -115,6 +115,12 @@
   100% {top: 0; left: 0; transform: rotate(-0deg);}
 }
 
+@media (max-width: 750px) {
+    .content-container {
+        padding: 75px 20px 75px 20px; 
+    }
+}
+
 @media (max-width: 950px) {
     .background-container {
         width: 90%;
