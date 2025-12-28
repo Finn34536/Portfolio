@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
+  --full-page-width: 1200px;
   --first-prime-color: #ffffff;
-  --background-color: #000000;
+  --second-prime-color: #000000;
+  --link-hover-color: #cacaca;
+
 }
 
 body {
@@ -12,14 +15,60 @@ body {
   font-size: 18px;
   font-weight: medium;
   font-style: normal;
+  background-color: var(--second-prime-color);
+}
+
+header {
+  height: auto;
+  width: 100%;
+  background-color: var(--second-prime-color);
+  border-bottom: solid 1px var(--first-prime-color);
+  padding: 20px calc((100vw - var(--full-page-width)) / 2) 20px calc((100vw - var(--full-page-width)) / 2);
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+header a{
+  text-decoration: none;
+  font-style: italic;
+  font-weight: 800;
+  transition: color 0.3s;
+}
+
+header a:hover{
+  color: var(--link-hover-color)
 }
 
 main{
   width: 100%;
   height: 100%;
-  background-color: var(--background-color);
 }
 
+hr {
+  background-color: var(--first-prime-color);
+  border: none;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--first-prime-color);
+}
+
+p {
+  color: var(--first-prime-color);
+}
+
+a {
+  color: var(--first-prime-color);
+}
 
 @keyframes slide-in {
   from {
@@ -33,7 +82,14 @@ main{
   }
 }
 
-.wrapper-horizontal {
+.wrapper-horizontal-centered {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper-fully-centered{
   height: 100%;
   width: 100%;
   display: flex;
@@ -41,13 +97,100 @@ main{
   align-items: center;
 }
 
-.wrapper-vertical {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.forground-wrapper {
+    position: absolute;
+}
+
+.background-wrapper {
+    position: fixed;
+    overflow: hidden;
+}
+
+.background-container {
+    width: 50%;
+    height: 50%;
+    max-width: 1000px;
+    max-height: 1000px;
+    position: relative;
+}
+
+.background-container .background-img-1, 
+.background-container .background-img-2,
+.background-container .background-img-3 {
+    width: 100%;
+    height: 100%;
+    filter: blur(150px);
+    position: absolute;
+    animation-duration: 7.5s;
+    animation-iteration-count: infinite;
+    user-select: none;
+    pointer-events: none;
+}
+
+.background-container-full-vw{
+    width: var(--full-page-width);
+    height: var(--full-page-width);
+    max-width: var(--full-page-width);
+    max-height: var(--full-page-width);
+    min-width: var(--full-page-width);
+    min-height: var(--full-page-width);
+}
+
+.background-container-full-vw .background-img-1, 
+.background-container-full-vw .background-img-2,
+.background-container-full-vw .background-img-3 {
+    filter: blur(200px);
+}
+
+.background-img-1 {
+    animation-name: animation-img-1;
+}
+
+.background-img-2 {
+    animation-name: animation-img-2;
+}
+
+.background-img-3 {
+    animation-name: animation-img-3;
+}
+
+@keyframes animation-img-1 {
+  0%   {top: 0; left: 0; transform: rotate(0deg);}
+  25%  {top: 30px; left: 10px; transform: rotate(20deg);}
+  50%  {top: -10px; left: 20px; transform: rotate(40deg);}
+  75%  {top: -100px; left: 100px; transform: rotate(60deg);}
+  100% {top: 0; left: 0; transform: rotate(0deg);}
+}
+
+@keyframes animation-img-2 {
+  0%   {top: 0; left: 0; transform: rotate(0deg);}
+  25%  {top: 20px; left: -30px; transform: rotate(-10deg);}
+  50%  {top: 100px; left: -100px; transform: rotate(-20deg);}
+  75%  {top: -20px; left: 10px; transform: rotate(-30deg);}
+  100% {top: 0; left: 0; transform: rotate(-0deg);}
+}
+
+@keyframes animation-img-3 {
+  0%   {top: 0; left: 0; transform: rotate(0deg);}
+  25%  {top: -50px; left: 20px; transform: rotate(10deg);}
+  50%  {top: -20px; left: -50px; transform: rotate(20deg);}
+  75%  {top: 40px; left: -100px; transform: rotate(30deg);}
+  100% {top: 0; left: 0; transform: rotate(-0deg);}
+}
+
+@media (max-width: 950px) {
+    .background-container {
+        width: 75%;
+        height: 75%;   
+    }
+}
+
+@media (max-width: 500px) {
+    .background-container .background-img-1, 
+    .background-container .background-img-2,
+    .background-container .background-img-3 {
+        filter: blur(90px);
+    }
 }
 
 .button-style {
@@ -57,16 +200,13 @@ main{
   padding: 10px;
   font-style: italic;
   font-weight: 700;
+  font-size: 20px;
   cursor: pointer;
   transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .button-style:hover{
   box-shadow: 
-        0px 0px 5px var(--first-prime-color),
-        inset 0px 0px 5px var(--first-prime-color);
-}
-
-.button-style:active{
-  transform: translateY(-10px);
+        0px 0px 10px var(--first-prime-color),
+        inset 0px 0px 10px var(--first-prime-color);
 }
