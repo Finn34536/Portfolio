@@ -6,9 +6,9 @@ let headerTopPosition = 0;
 let startScroll = 0;
 const headerHeight = -header.offsetHeight
 
-document.addEventListener("scroll", ()=> {
+document.addEventListener("scroll",()=> {
     let endScroll = window.pageYOffset;
-    if (startScroll < endScroll) {
+    if (startScroll <= endScroll) {
         if (!(headerHeight > headerTopPosition)) {
             headerTopPosition = headerTopPosition - 10;
             header.style.top = headerTopPosition + "px";
@@ -18,6 +18,9 @@ document.addEventListener("scroll", ()=> {
             headerTopPosition = headerTopPosition + 10;
             header.style.top = headerTopPosition + "px";
         }
+    }
+    if (window.pageYOffset === 0) {
+        header.style.top = 0 + "px";
     }
     startScroll = endScroll;
 });
