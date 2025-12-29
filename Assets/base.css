@@ -4,7 +4,7 @@
   --full-page-width: 1200px;
   --first-prime-color: #ffffff;
   --second-prime-color: #000000;
-  --hover-color: #cacaca;
+  --hover-color: #d4d4d4;
   --header-full-height: 1; /*Variablen Inhalt wird per header-height.js generiert*/
 }
 
@@ -51,7 +51,7 @@ header {
 
 header a{
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 200;
   transition: color 0.3s;
 }
 
@@ -66,7 +66,10 @@ header a:hover{
   -webkit-user-drag: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  transition: color 0.3s;
+}
+
+.svgPfad{
+  transition: fill 0.3s;
 }
 
 .menü-icon:hover .svgPfad{

@@ -9,7 +9,7 @@ let headerHeightclosed = (header.querySelector(".header-drag-area").offsetHeight
 let touchStart = false;
 let touchStartPositionY;
 let touchCurrentPositionY;
-export let menuIsOpen = false;
+let menuIsOpen = false;
 
 //Platziert den Header oben in eingefahrenen Zustand beim Laden
 document.addEventListener("DOMContentLoaded", ()=> {
@@ -23,7 +23,8 @@ window.addEventListener("resize", ()=> {
     if (window.innerWidth < 750) {
         headerHeightclosed = (header.querySelector(".header-drag-area").offsetHeight) + (headerPaddingBottom[0] * 2);
         header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
-        header.style.removeProperty("transition");
+    } else {
+        header.style.top = 0 + "px";
     }
 });
 
