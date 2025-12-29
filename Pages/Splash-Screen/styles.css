@@ -1,0 +1,57 @@
+.content-container {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    position: relative;
+    padding: 75px 75px 75px 75px; 
+    margin: 20px;
+    animation-name: slide-in;
+    animation-duration: 1s;
+}
+
+.content-container h1{
+    font-style: italic;
+    font-weight: 200;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 38px;
+}
+
+.content-container p{
+    text-align: center;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 75px;
+}
+
+.content-container .uper-corner,
+.content-container .lower-corner {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+}
+
+.content-container .uper-corner {
+    border-top: 1px solid var(--first-prime-color);
+    border-left: 1px solid var(--first-prime-color);
+    top: 0;
+    left: 0;
+}
+
+.content-container .lower-corner {
+    border-bottom: 1px solid var(--first-prime-color);
+    border-right: 1px solid var(--first-prime-color);
+    bottom: 0;
+    right: 0;
+}
+
+@media (max-width: 750px) {
+    .content-container {
+        padding: 75px 35px 75px 35px; 
+    }
+}
