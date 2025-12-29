@@ -6,6 +6,7 @@ const body = document.querySelector("body");
 const headerStyles = window.getComputedStyle(header);
 const headerPaddingBottom = headerStyles.paddingBottom.split("px")
 let headerHeightclosed = (header.querySelector(".header-drag-area").offsetHeight) + (headerPaddingBottom[0] * 2);
+console.log(headerHeightclosed)
 let touchStart = false;
 let touchStartPositionY;
 let touchCurrentPositionY;
