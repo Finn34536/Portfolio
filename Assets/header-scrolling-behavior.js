@@ -7,20 +7,22 @@ let startScroll = 0;
 const headerHeight = -header.offsetHeight
 
 document.addEventListener("scroll",()=> {
-    let endScroll = window.pageYOffset;
-    if (startScroll <= endScroll) {
-        if (!(headerHeight > headerTopPosition)) {
-            headerTopPosition = headerTopPosition - 10;
-            header.style.top = headerTopPosition + "px";
+    if (window.innerWidth > 750) {
+        let endScroll = window.pageYOffset;
+        if (startScroll <= endScroll) {
+            if (!(headerHeight > headerTopPosition)) {
+                headerTopPosition = headerTopPosition - 10;
+                header.style.top = headerTopPosition + "px";
+            }
+        } else {
+            if (!(headerTopPosition >= 0)) {
+                headerTopPosition = headerTopPosition + 10;
+                header.style.top = headerTopPosition + "px";
+            }
         }
-    } else {
-        if (!(headerTopPosition >= 0)) {
-            headerTopPosition = headerTopPosition + 10;
-            header.style.top = headerTopPosition + "px";
+        if (window.pageYOffset === 0) {
+            header.style.top = 0 + "px";
         }
+        startScroll = endScroll;
     }
-    if (window.pageYOffset === 0) {
-        header.style.top = 0 + "px";
-    }
-    startScroll = endScroll;
 });

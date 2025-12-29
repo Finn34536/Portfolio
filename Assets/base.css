@@ -4,7 +4,7 @@
   --full-page-width: 1200px;
   --first-prime-color: #ffffff;
   --second-prime-color: #000000;
-  --link-hover-color: #cacaca;
+  --hover-color: #cacaca;
   --header-full-height: 1; /*Variablen Inhalt wird per header-height.js generiert*/
 }
 
@@ -51,23 +51,34 @@ header {
 
 header a{
   text-decoration: none;
-  font-style: italic;
   font-weight: 800;
   transition: color 0.3s;
 }
 
 header a:hover{
-  color: var(--link-hover-color)
+  color: var(--hover-color);
 }
 
 .menü-icon {
   width: 40px;
   display: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  transition: color 0.3s;
+}
+
+.menü-icon:hover .svgPfad{
+    fill: var(--hover-color); /* oder eine andere Farbe */
 }
 
 @media (max-width: 750px) {
   .header-content {
-    display: none;
+    padding: 30px 0 20px 0;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 25px;
   }
 
   .menü-icon {
