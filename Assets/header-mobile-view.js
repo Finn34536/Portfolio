@@ -1,94 +1,140 @@
 // Funktionen zum Header in minimierter Bildschirmansicht
 
 const header = document.querySelector("header");
+const headerFullHeight = header.offsetHeight;
+const headerDragArea = header.querySelector(".header-drag-area");
 const menuIcon = header.querySelector(".menü-icon");
 const body = document.querySelector("body");
 const headerStyles = window.getComputedStyle(header);
-const headerPaddingBottom = headerStyles.paddingBottom.split("px")
-let headerHeightclosed = (header.querySelector(".header-drag-area").offsetHeight) + (headerPaddingBottom[0] * 2);
-console.log(headerHeightclosed)
-let touchStart = false;
-let touchStartPositionY;
-let touchCurrentPositionY;
-let menuIsOpen = false;
+const headerPaddingBottom = headerStyles.paddingBottom.split("px");
+const transitionSpeed = 0.5;
+const state = {
+    headerHeightclosed: (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2),
+    touchAktiv: false,
+    menuIsOpen: false,
+    touchY: 0
+}
+
 
 //Platziert den Header oben in eingefahrenen Zustand beim Laden
 document.addEventListener("DOMContentLoaded", ()=> {
-    if (window.innerWidth < 750) {
-        header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
+    if (windowIsBelow750px()) {
+        retractHeader()
     }
 });
 
 //Platziert den Header oben in eingefahrenen Zustand bei Resize
 window.addEventListener("resize", ()=> {
-    if (window.innerWidth < 750) {
-        headerHeightclosed = (header.querySelector(".header-drag-area").offsetHeight) + (headerPaddingBottom[0] * 2);
-        header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
+    if (windowIsBelow750px()) {
+        state.headerHeightclosed = (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2);
+        retractHeader()
     } else {
         header.style.top = 0 + "px";
     }
 });
 
-//Aktiviert bei touch auf header Touchstart, legt den Startpunkt der Touchbewegung fest und Macht den Hintergrund nicht scrollbar
-header.addEventListener("touchstart", (event)=> {
-    if (window.innerWidth < 750) {
+//Entfernt CSS Hidden und Transition vom Header und Aktiviert Touchaktiv
+header.addEventListener("touchstart", ()=> {
+    if (windowIsBelow750px()) {
         header.style.removeProperty("transition");
         body.style.overflow= "hidden";
-        touchStart = true;
-        touchStartPositionY = event.touches[0].clientY;
+        state.touchAktiv = true;
     }
 });
 
 //Bewegt den header an die aktuelle Touchposition und speichert diese zum abgleich
 header.addEventListener("touchmove", (event)=> {
-    if (touchStart) {
-        touchCurrentPositionY = (event.touches[0].clientY) - (header.offsetHeight - (headerHeightclosed / 2));
-        //Begrenzung nach oben und unten durch if
-        if (!(touchCurrentPositionY > 0 || header.offsetHeight < Math.abs(touchCurrentPositionY - headerHeightclosed))) {
-            header.style.top = touchCurrentPositionY + "px";
+    if (state.touchAktiv) {
+        state.touchY = event.touches[0].clientY - headerDragArea.offsetHeight / 2;
+        const currentTouchPositionY = state.touchY + headerHeightFullyRetracted();
+        if (currentHeaderPositionWithinLimits(currentTouchPositionY)) {
+            header.style.top = currentTouchPositionY + "px";
         }
     } 
-});
+}, { passive: true });
 
-//Fährt den Header bei ende der Touchbewegung entweder voll aus oder ein, wenn touchstart Aktiv ist. Setzt touchstart am Ende auf inaktiv und macht den Hintergrund wieder scrollbar
-header.addEventListener("touchend", (event)=> {
-    if (touchStart) {
-        header.style.transition = 'top 1s';
-        if (header.offsetHeight / 2 >= event.changedTouches[0].clientY) {
-            //Header Voll einfahren
-            header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
+//Header nach Touch entweder voll ein oder ausgefahren. Dom wieder scrollbar gemacht.
+header.addEventListener("touchend", ()=> {
+    if (state.touchAktiv) {
+        startTransition(transitionSpeed);
+        if (headerPositionIsLessThanHalf()) {
+            retractHeader();
         } else {
-            //Header Voll ausfahren
-            header.style.top = 0 + "px";
+            extendHeader();
         }
     }
-    touchStart = false;
+    state.touchAktiv = false;
     body.style.overflow= "visible";
 });
 
 //Fährt das Menü bei Mausklick auf das Icon ein und aus
 menuIcon.addEventListener("mousedown", ()=> {
-    if (!menuIsOpen) {
-        //Header Voll ausfahren
-        header.style.transition = 'top 1s';
-        header.style.top = 0 + "px";
-        menuIsOpen = true;
-        setTimeout(() => header.style.removeProperty("transition"), 1000);
+    if (!state.menuIsOpen) {
+        startTransition(transitionSpeed);
+        extendHeader();
     } else {
-        //Header Voll einfahren
-        header.style.transition = 'top 1s';
-        header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
-        menuIsOpen = false;
-        setTimeout(() => header.style.removeProperty("transition"), 1000);
+        startTransition(transitionSpeed);
+        retractHeader();
     }
 });
 
 //Fährt das Menü wieder ein beim Scrollen auf der Seite
 document.addEventListener("scroll", ()=> {
-    if (menuIsOpen) {
-        header.style.transition = 'top 1s';
-        header.style.top = -(header.offsetHeight - headerHeightclosed) + "px";
-        menuIsOpen = false;
-        setTimeout(() => header.style.removeProperty("transition"), 1000);
+    if (state.menuIsOpen) {
+        startTransition(transitionSpeed);
+        retractHeader();
     }
 });
+
+//Funktion zum prüfen der Window größe
+function windowIsBelow750px() {
+    return window.innerWidth <= 750;
+}
+
+//Prüft ob sich höhe des Headers in den Festgelegten grenzen befindet
+function currentHeaderPositionWithinLimits(currentTouchPositionY) {
+    let currentPositionIsToLow = false;
+    if (currentTouchPositionY > 0) {
+        currentPositionIsToLow = true;
+    }
+    let currentPositionIsToHigh = false;
+    if (headerFullHeight < Math.abs(currentTouchPositionY - state.headerHeightclosed)) {
+        currentPositionIsToHigh = true;
+    }
+    if (!(currentPositionIsToLow || currentPositionIsToHigh)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//Prüft wie weit der Header Ausgefahren ist
+function headerPositionIsLessThanHalf() {
+    if (headerFullHeight / 2 >= state.touchY) {
+      return true;  
+    } else {
+        return false;
+    }
+}
+
+//Header einfahren
+function retractHeader() {
+    header.style.top = headerHeightFullyRetracted() + "px";
+    state.menuIsOpen = false;
+}
+
+//Header ausfahren
+function extendHeader() {
+    header.style.top = 0 + "px";
+    state.menuIsOpen = true;   
+}
+
+//Aktiviert Transition für bestimmten Zeitraum
+function startTransition(seconds) {
+    header.style.transition = `top ${seconds}s`;
+    setTimeout(() => header.style.removeProperty("transition"), seconds * 1000);
+}
+
+function headerHeightFullyRetracted() {
+    return -(headerFullHeight - state.headerHeightclosed);
+}
