@@ -7,14 +7,16 @@ const menuIcon = header.querySelector(".menü-icon");
 const body = document.querySelector("body");
 const headerStyles = window.getComputedStyle(header);
 const headerPaddingBottom = headerStyles.paddingBottom.split("px");
+const isTouchDevice = "ontouchstart" in window;
 const transitionSpeed = 0.5;
 const state = {
+    headerFullHeight: header.offsetHeight,
     headerHeightclosed: (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2),
     touchAktiv: false,
     menuIsOpen: false,
     touchY: 0
 }
-
+const timeOutRefObj = {}
 
 //Platziert den Header oben in eingefahrenen Zustand beim Laden
 document.addEventListener("DOMContentLoaded", ()=> {
@@ -26,6 +28,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 //Platziert den Header oben in eingefahrenen Zustand bei Resize
 window.addEventListener("resize", ()=> {
     if (windowIsBelow750px()) {
+        reload()
+        state.headerFullHeight = header.offsetHeight;
         state.headerHeightclosed = (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2);
         retractHeader()
     } else {
@@ -44,8 +48,8 @@ header.addEventListener("touchstart", ()=> {
 
 //Bewegt den header an die aktuelle Touchposition und speichert diese zum abgleich
 header.addEventListener("touchmove", (event)=> {
+    state.touchY = event.touches[0].clientY - headerDragArea.offsetHeight;
     if (state.touchAktiv) {
-        state.touchY = event.touches[0].clientY - headerDragArea.offsetHeight / 2;
         const currentTouchPositionY = state.touchY + headerHeightFullyRetracted();
         if (currentHeaderPositionWithinLimits(currentTouchPositionY)) {
             header.style.top = currentTouchPositionY + "px";
@@ -68,13 +72,15 @@ header.addEventListener("touchend", ()=> {
 });
 
 //Fährt das Menü bei Mausklick auf das Icon ein und aus
-menuIcon.addEventListener("mousedown", ()=> {
-    if (!state.menuIsOpen) {
-        startTransition(transitionSpeed);
-        extendHeader();
-    } else {
-        startTransition(transitionSpeed);
-        retractHeader();
+menuIcon.addEventListener("click", ()=> {
+    if (!isTouchDevice) {
+        if (!state.menuIsOpen) {
+            startTransition(transitionSpeed);
+            extendHeader();
+        } else {
+            startTransition(transitionSpeed);
+            retractHeader();
+        }
     }
 });
 
@@ -98,7 +104,7 @@ function currentHeaderPositionWithinLimits(currentTouchPositionY) {
         currentPositionIsToLow = true;
     }
     let currentPositionIsToHigh = false;
-    if (headerFullHeight < Math.abs(currentTouchPositionY - state.headerHeightclosed)) {
+    if (state.headerFullHeight < Math.abs(currentTouchPositionY - state.headerHeightclosed)) {
         currentPositionIsToHigh = true;
     }
     if (!(currentPositionIsToLow || currentPositionIsToHigh)) {
@@ -110,11 +116,7 @@ function currentHeaderPositionWithinLimits(currentTouchPositionY) {
 
 //Prüft wie weit der Header Ausgefahren ist
 function headerPositionIsLessThanHalf() {
-    if (headerFullHeight / 2 >= state.touchY) {
-      return true;  
-    } else {
-        return false;
-    }
+    return state.headerFullHeight / 2 >= state.touchY;
 }
 
 //Header einfahren
@@ -135,6 +137,15 @@ function startTransition(seconds) {
     setTimeout(() => header.style.removeProperty("transition"), seconds * 1000);
 }
 
+//Gibt die Höhe zurück, die gebraucht wird um den Header voll auszufahren
 function headerHeightFullyRetracted() {
-    return -(headerFullHeight - state.headerHeightclosed);
+    return -(state.headerFullHeight - state.headerHeightclosed);
+}
+
+//Erstellt Timeout der nach Resize die seite neu lädt
+function reload() {
+    if (timeOutRefObj.timeOut) clearTimeout(timeOutRefObj.timeOut);
+    timeOutRefObj.timeOut = setTimeout(() => {
+        location.reload();
+    }, 500), { once: true };
 }
