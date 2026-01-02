@@ -3,20 +3,18 @@
 const header = document.querySelector("header");
 const headerFullHeight = header.offsetHeight;
 const headerDragArea = header.querySelector(".header-drag-area");
-const menuIcon = header.querySelector(".menü-icon");
+const menuIcon = header.querySelector(".menu-icon");
 const body = document.querySelector("body");
-const headerStyles = window.getComputedStyle(header);
-const headerPaddingBottom = headerStyles.paddingBottom.split("px");
 const isTouchDevice = "ontouchstart" in window;
 const transitionSpeed = 0.5;
 const state = {
     headerFullHeight: header.offsetHeight,
-    headerHeightclosed: (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2),
+    headerHeightclosed: (headerDragArea.offsetHeight),
     touchAktiv: false,
     menuIsOpen: false,
     touchY: 0
 }
-const timeOutRefObj = {}
+const timeOutRef = {}
 
 //Platziert den Header oben in eingefahrenen Zustand beim Laden
 document.addEventListener("DOMContentLoaded", ()=> {
@@ -28,9 +26,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 //Platziert den Header oben in eingefahrenen Zustand bei Resize
 window.addEventListener("resize", ()=> {
     if (windowIsBelow750px()) {
-        reload()
         state.headerFullHeight = header.offsetHeight;
-        state.headerHeightclosed = (headerDragArea.offsetHeight) + (headerPaddingBottom[0] * 2);
+        state.headerHeightclosed = (headerDragArea.offsetHeight);
         retractHeader()
     } else {
         header.style.top = 0 + "px";
@@ -72,7 +69,7 @@ header.addEventListener("touchend", ()=> {
 });
 
 //Fährt das Menü bei Mausklick auf das Icon ein und aus
-menuIcon.addEventListener("click", ()=> {
+menuIcon.addEventListener("mousedown", ()=> {
     if (!isTouchDevice) {
         if (!state.menuIsOpen) {
             startTransition(transitionSpeed);
@@ -116,7 +113,7 @@ function currentHeaderPositionWithinLimits(currentTouchPositionY) {
 
 //Prüft wie weit der Header Ausgefahren ist
 function headerPositionIsLessThanHalf() {
-    return state.headerFullHeight / 2 >= state.touchY;
+    return state.headerFullHeight / 3 >= state.touchY;
 }
 
 //Header einfahren
@@ -140,12 +137,4 @@ function startTransition(seconds) {
 //Gibt die Höhe zurück, die gebraucht wird um den Header voll auszufahren
 function headerHeightFullyRetracted() {
     return -(state.headerFullHeight - state.headerHeightclosed);
-}
-
-//Erstellt Timeout der nach Resize die seite neu lädt
-function reload() {
-    if (timeOutRefObj.timeOut) clearTimeout(timeOutRefObj.timeOut);
-    timeOutRefObj.timeOut = setTimeout(() => {
-        location.reload();
-    }, 500), { once: true };
 }
