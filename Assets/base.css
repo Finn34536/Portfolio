@@ -5,7 +5,15 @@
   --first-prime-color: #ffffff;
   --second-prime-color: #000000;
   --hover-color: #d4d4d4;
+  --header-icon-size: 40px;
+  --padding-sides: 70px;
   --header-full-height: 1; /*Variablen Inhalt wird per header-height.js generiert*/
+}
+
+@media (max-width: 750px) {
+  :root {
+    --padding-sides: 25px;
+  }
 }
 
 @keyframes slide-in {
@@ -17,6 +25,16 @@
   to {
     opacity: 100;
     transform: translateY(0px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100;
   }
 }
 
@@ -49,31 +67,49 @@ header {
   flex-wrap: wrap;
 }
 
-header a{
+.header-content a{
+  z-index: 1;
   text-decoration: none;
   font-weight: 200;
   transition: color 0.3s;
 }
 
-header a:hover{
+.header-content a:hover{
   color: var(--hover-color);
 }
 
+.icon-container {
+  width: 50px;
+  aspect-ratio: 1 / 1;
+  display: none;
+}
+
 .menu-icon {
-  width: 40px;
+  width: var(--header-icon-size);
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  animation-name: fade-in;
+  animation-duration: 0.5s;
+
+}
+
+.arrow {
+  width: calc(var(--header-icon-size) - 6px);
   display: none;
   user-select: none;
   -webkit-user-drag: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  animation-name: fade-in;
+  animation-duration: 0.5s;
+
 }
 
-.svgPfad{
-  transition: fill 0.3s;
-}
-
-.menu-icon:hover .svgPfad{
-    fill: var(--hover-color); /* oder eine andere Farbe */
+.rotate180deg {
+  transform: rotate(180deg);
 }
 
 @media (max-width: 750px) {
@@ -94,9 +130,22 @@ header a:hover{
     flex-direction: column;
     margin-bottom: 10px;
   }
+  
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
 
-  .menu-icon {
-    display: block;
+  @media (hover: hover) {
+    .icon-container:hover .menu-icon {
+      display: none;
+    }
+
+    .icon-container:hover .arrow {
+      display: block;
+    }
   }
 }
 

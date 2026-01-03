@@ -3,7 +3,8 @@
 const header = document.querySelector("header");
 const headerFullHeight = header.offsetHeight;
 const headerDragArea = header.querySelector(".header-drag-area");
-const menuIcon = header.querySelector(".menu-icon");
+const menuIcon = header.querySelector(".icon-container");
+const arrow = header.querySelector(".arrow");
 const body = document.querySelector("body");
 const isTouchDevice = "ontouchstart" in window;
 const transitionSpeed = 0.5;
@@ -28,7 +29,8 @@ window.addEventListener("resize", ()=> {
     if (windowIsBelow750px()) {
         state.headerFullHeight = header.offsetHeight;
         state.headerHeightclosed = (headerDragArea.offsetHeight);
-        retractHeader()
+        retractHeader();
+        turnArrowUp();
     } else {
         header.style.top = 0 + "px";
     }
@@ -57,11 +59,14 @@ header.addEventListener("touchmove", (event)=> {
 //Header nach Touch entweder voll ein oder ausgefahren. Dom wieder scrollbar gemacht.
 header.addEventListener("touchend", ()=> {
     if (state.touchAktiv) {
-        startTransition(transitionSpeed);
-        if (headerPositionIsLessThanHalf()) {
-            retractHeader();
-        } else {
+        if (headerPositionIsMoreThanAQuarter()) {
+            startTransition(transitionSpeed);
             extendHeader();
+            turnArrowDown();
+        } else {
+            startTransition(transitionSpeed);
+            retractHeader();
+            turnArrowUp();
         }
     }
     state.touchAktiv = false;
@@ -74,9 +79,11 @@ menuIcon.addEventListener("mousedown", ()=> {
         if (!state.menuIsOpen) {
             startTransition(transitionSpeed);
             extendHeader();
+            turnArrowDown();
         } else {
             startTransition(transitionSpeed);
             retractHeader();
+            turnArrowUp();
         }
     }
 });
@@ -86,6 +93,7 @@ document.addEventListener("scroll", ()=> {
     if (state.menuIsOpen) {
         startTransition(transitionSpeed);
         retractHeader();
+        turnArrowUp();
     }
 });
 
@@ -112,8 +120,8 @@ function currentHeaderPositionWithinLimits(currentTouchPositionY) {
 }
 
 //Prüft wie weit der Header Ausgefahren ist
-function headerPositionIsLessThanHalf() {
-    return state.headerFullHeight / 3 >= state.touchY;
+function headerPositionIsMoreThanAQuarter() {
+    return state.headerFullHeight / 4 <= state.touchY;
 }
 
 //Header einfahren
@@ -126,6 +134,17 @@ function retractHeader() {
 function extendHeader() {
     header.style.top = 0 + "px";
     state.menuIsOpen = true;   
+}
+
+//Dreht das Pfeilicon hoch
+function turnArrowUp() {
+    arrow.classList.remove("rotate180deg");
+    
+}
+
+//Dreht das Pfeilicon Runter
+function turnArrowDown() {
+    arrow.classList.add("rotate180deg");
 }
 
 //Aktiviert Transition für bestimmten Zeitraum

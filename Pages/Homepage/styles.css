@@ -6,7 +6,6 @@
     background-color: var(--second-prime-color);
     position: relative;
     padding-top: var(--header-full-height);
-
 }
 
 .content-grid {
@@ -21,7 +20,7 @@
 .item-4,
 .item-5,
 .item-8 {
-    padding: 70px;
+    padding: 25px var(--padding-sides) 25px var(--padding-sides);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -177,10 +176,15 @@
     .item-4,
     .item-5,
     .item-8 {
-        padding: 25px;
+        padding-top: 25px;
+        padding-bottom: 25px;
         display: flex;
         justify-content: center;
         flex-direction: column;
+    }
+
+    .contact-container {
+        padding: 25px 0 65px 0;
     }
 }
 

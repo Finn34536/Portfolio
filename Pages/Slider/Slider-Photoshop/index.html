@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="../../../Assets/reset.css">
+    <link rel="stylesheet" href="../../../Assets/base.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="../../../Assets/index.js" type="module"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="">ÜBER MICH</a>
+            <a href="./index.html">GRAFIKDESIGN</a>
+            <a href="">WEBDESIGN & WEBENTWICKELUNG</a>
+            <a href="">WERBEDESIGN</a>
+            <a href="">KONTAKT</a>
+        </div>
+        <!--header-drag-area ist notwendig für header-mobile-view.js-->
+        <div class="header-drag-area">
+            <div class="icon-container">
+                <img class="menu-icon" src="../../../Assets/menu-icon.svg" draggable="false">
+                <img class="arrow" src="../../../Assets/arrow.svg" draggable="false">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="wrapper-horizontal-centered forground-wrapper">
+            <div class="content-container">
+                <div class="font-container">
+                    <h2>GRAFIKDESIGN</h2>
+                    <p>Arbeiten mit Photoshop</p>
+                </div>
+                <div class="slider-container">
+                    <div class="slide">
+                        <div class="img-container">
+                            <img class="img-1" src="../../../Assets/img-1.png">
+                            <img class="img-2" src="../../../Assets/img-1.1.jpg">
+                        </div>
+                    </div>
+                    <div class="slide"></div>
+                    <div class="slide"></div>
+                </div>
+                <div class="arrow-container">
+                    <img id="scroll-arrow-left" class="scroll-arrow" src="../../../Assets/arrow.svg">
+                    <img id="scroll-arrow-right" class="scroll-arrow" src="../../../Assets/arrow.svg">
+                </div>
+            </div>
+        </div>
+        <!--Hintergrund-->
+        <div class="wrapper-fully-centered background-wrapper">
+            <div class="background-container background-container-full-vw">
+                <img class="background-img-1" src="../../../Assets/form-1.svg">
+                <img class="background-img-2" src="../../../Assets/form-2.svg">
+                <img class="background-img-3" src="../../../Assets/form-3.svg">
+            </div>
+        </div>
+    </main>
+</body>
+</html>

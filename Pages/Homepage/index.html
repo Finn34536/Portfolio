@@ -13,16 +13,17 @@
     <header>
         <div class="header-content">
             <a href="">ÜBER MICH</a>
-            <a href="">GRAFIKDESIGN</a>
+            <a href="../Slider/Slider-Photoshop/index.html">GRAFIKDESIGN</a>
             <a href="">WEBDESIGN & WEBENTWICKELUNG</a>
             <a href="">WERBEDESIGN</a>
             <a href="">KONTAKT</a>
         </div>
         <!--header-drag-area und menü-icon sind notwendig für header-mobile-view.js-->
         <div class="header-drag-area">
-            <svg class="menu-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 6H20M4 12H20M4 18H20" stroke="#ffffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <div class="icon-container">
+                <img class="menu-icon" src="../../Assets/menu-icon.svg" draggable="false">
+                <img class="arrow" src="../../Assets/arrow.svg" draggable="false">
+            </div>
         </div>
     </header>
     <main>
@@ -53,7 +54,9 @@
                         <div>
                             <h2>GRAFIKDESIGN</h2>
                             <p>Arbeiten mit Photoshop</p>
-                            <button class="button-style">ANSCHAUEN</button>
+                            <a href="../Slider/Slider-Photoshop/index.html">
+                                <button class="button-style">ANSCHAUEN</button>
+                            </a>
                         </div>
                     </div>
                     <div class="item-5">
@@ -87,6 +90,7 @@
                 </div>
             </div>
         </div>
+        <!--Hintergrund-->
         <div class="wrapper-fully-centered background-wrapper">
             <div class="background-container background-container-full-vw">
                 <img class="background-img-1" src="../../Assets/form-1.svg">

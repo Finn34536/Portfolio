@@ -1,0 +1,104 @@
+.content-container {
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    max-width: var(--full-page-width);
+    background-color: var(--second-prime-color);
+    position: relative;
+    padding-top: var(--header-full-height);
+    display: grid;
+    grid-template-rows: minmax(50px, auto) auto minmax(50px, auto);
+}
+
+.font-container {
+    width: 100%;
+    margin-top: 30px;
+    padding: 0 var(--padding-sides) 0 var(--padding-sides);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.font-container h2 {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 800;
+}
+
+.font-container p {
+    font-size: 36px;
+    font-style: italic;
+    font-weight: 200;
+}
+
+.slider-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow-x: hidden;
+}
+
+.slide {
+    width: 100vw;
+    height: 100%;
+    max-width: var(--full-page-width);
+    overflow: hidden;
+    flex-shrink: 0;
+    padding: 0 var(--padding-sides) 0 var(--padding-sides);
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.arrow-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.scroll-arrow {
+    height: 15px;
+}
+
+.arrow-container .scroll-arrow:first-child {
+    transform: rotate(90deg);
+}
+
+.arrow-container .scroll-arrow:nth-child(2) {
+    transform: rotate(270deg);
+}
+
+@media (max-width: 750px) {
+    .font-container {
+        margin-top: 0;
+        padding: 20px var(--padding-sides) 20px var(--padding-sides);
+    }
+
+    .img-container {
+        flex-direction: column;
+    }
+
+    .content-container {
+        grid-template-rows: minmax(50px, auto) 800px minmax(50px, auto);
+    }
+
+    .arrow-container {
+        padding: 30px;
+    }
+}
+
+@media (hover: none) {
+    .content-container {
+        grid-template-rows: minmax(50px, auto) 600px minmax(50px, auto);
+    }
+}
